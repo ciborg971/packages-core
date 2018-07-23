@@ -54,6 +54,10 @@ source=(#"https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.
         '0002-Bluetooth-btusb-Apply-QCQ_ROME-setup-for-BTUSB_ATH30.patch'
         '0001-iwlwifi-killer-ac-1550.patch'
         '0001-realtek-uvc15.patch::https://patchwork.kernel.org/patch/10388043/raw/'
+	# RazerBlade15
+	'gpiolib.patch::https://raw.githubusercontent.com/jbdrthapa/razerblade15/master/razerfiles/touchpad/gpiolib.patch'
+	'pinctrl-intel.patch::https://raw.githubusercontent.com/jbdrthapa/razerblade15/master/razerfiles/touchpad/pinctrl-intel.patch'
+
         # Bootsplash
         'https://github.com/philmmanjaro/linux-bootsplash/raw/v4.16/0001-bootsplash.patch'
         'https://github.com/philmmanjaro/linux-bootsplash/raw/v4.16/0002-bootsplash.patch'
@@ -135,6 +139,10 @@ prepare() {
   # iwlwifi: add killer cards for 9000 series
   # https://forum.manjaro.org/t/46167
   patch -Np1 -i "${srcdir}/0001-iwlwifi-killer-ac-1550.patch"
+
+  #blade15 add touchpad support
+  patch -Np1 drivers/pinctrl/intel/pinctrl-intel.c < "${srcdir}/pinctrl-intel.patch"
+  patch -Np1 drivers/gpio/gpiolib.c < "${srcdir}/gpiolib.patch"
 
   # Add bootsplash - http://lkml.iu.edu/hypermail/linux/kernel/1710.3/01542.html
   patch -Np1 -i "${srcdir}/0001-bootsplash.patch"
@@ -352,3 +360,40 @@ package_linux417-headers() {
     /usr/bin/strip ${_strip} "${_binary}"
   done < <(find "${_builddir}/scripts" -type f -perm -u+w -print0 2>/dev/null)
 }
+sha256sums=('89a1790f4548c71e074597f467f43bd90a58ea7ee67bd9b22a02cfd685ee1533'
+            '7e46041118371e88ec33039c3f5140566c8984830670607a677e799fa9f95cce'
+            'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
+            'b44d81446d8b53d5637287c30ae3eb64cae0078c3fbc45fcf1081dd6699818b5'
+            '43942683a7ff01b180dff7f3de2db4885d43ab3d4e7bd0e1918c3aaf2ee061f4'
+            'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
+            '90831589b7ab43d6fab11bfa3ad788db14ba77ea4dc03d10ee29ad07194691e1'
+            '97bfea70dc9216c7dd0db58a89d9b9274cddc69008b0521bcac8a3fba7d47e96'
+            '363f7aea70949d87befe4890918848c456c4ece903caa9ef3bf3b3269c021474'
+            '173ec6ca1b9b5b0938bddc897270abd67a171d18199f917c5299a8655497c6a7'
+            '4de296b32203a6d54580c129b1c261065952a1173031bcbcdc57bf6a9ad24325'
+            '78a5db0fa5fa216e80387d6d1e81830e82f6fb40257624665ed4598217f4de32'
+            'c7bb7de8af97e17f8e0c971b6acbe432ed73d1c9346d4016518e0e28d03062f2'
+            '82a021dee94e3afb3f04f5fdb75fd6196ab52ba44c751237fd2e5e8d945a7660'
+            '02c6de5d4bf75b90ee5cb2f3fd672eaf176c79c0f2a762657f6b4025c27e627a'
+            'add5d66f3ab452514dbd2591922f440f94fbc003f6e33e588c17f627c2dc80e4'
+            '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
+            'd365ce80dab359d5277bd2f8568cad50a30ab269f222ed1bb12b8d74571e24a6'
+            'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
+            '61abfab9093bdfec4edda3586fd05afe2f488a92ca99cff51c36b359acdcc815'
+            '863a02c53b5096a005cdde60d558f3e5d48d33d8360e513b915fa06e0df38c62'
+            'e7a3d7047a5b7a447d136db9bf65a018b4c48436204c4f087ef26190c4fc90a1'
+            'bb13be78515db6e496910c0759410404399d2671df035e3bcdc42c012043ed07'
+            '85fe8728e64191018b983bb99bf4c38ea162a1a63efcf75cd33c0b2753dfe883'
+            'a504f6cf84094e08eaa3cc5b28440261797bf4f06f04993ee46a20628ff2b53c'
+            'e096b127a5208f56d368d2cb938933454d7200d70c86b763aa22c38e0ddb8717'
+            '8c1c880f2caa9c7ae43281a35410203887ea8eae750fe8d360d0c8bf80fcc6e0'
+            '1144d51e5eb980fceeec16004f3645ed04a60fac9e0c7cf88a15c5c1e7a4b89e'
+            'dd4b69def2efacf4a6c442202ad5cb93d492c03886d7c61de87696e5a83e2846'
+            'c9ae3f67042a6a008ba0e19c911fae45fbc7003ce704c4a5028c965b2e0881ff'
+            'c8b0cb231659d33c3cfaed4b1f8d7c8305ab170bdd4c77fce85270d7b6a68000'
+            '8dbb5ab3cb99e48d97d4e2f2e3df5d0de66f3721b4f7fd94a708089f53245c77'
+            'a7aefeacf22c600fafd9e040a985a913643095db7272c296b77a0a651c6a140a'
+            'e9f22cbb542591087d2d66dc6dc912b1434330ba3cd13d2df741d869a2c31e89'
+            '27471eee564ca3149dd271b0817719b5565a9594dc4d884fe3dc51a5f03832bc'
+            '60e295601e4fb33d9bf65f198c54c7eb07c0d1e91e2ad1e0dd6cd6e142cb266d'
+            '035ea4b2a7621054f4560471f45336b981538a40172d8f17285910d4e0e0b3ef')
